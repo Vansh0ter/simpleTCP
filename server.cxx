@@ -15,7 +15,7 @@ int main() {
     short PORT;
 
     // Prompt user for the server port number
-    std::cout << "Enter the server port number: ";
+    std::cout << "Enter the server \e[4mport number\e[0m: ";
     std::cin >> PORT;
 
     // Validate port input
