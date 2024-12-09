@@ -1,5 +1,5 @@
 ### About
-Super simple program that uses TCP connection. Basically server listens on certain port and client sends data on certain IP:PORT(1 sec period)
+Super simple program that uses TCP client/server connection.
 ### Building
 ```shell
 #building server
