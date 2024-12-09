@@ -4,7 +4,6 @@
 #include <netinet/in.h>
 #include <unistd.h>
 
-#define PORT 8080
 #define BUFFER_SIZE 1024
 
 int main() {
@@ -13,6 +12,17 @@ int main() {
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[BUFFER_SIZE] = {0};
+    short PORT;
+
+    // Prompt user for the server port number
+    std::cout << "Enter the server port number: ";
+    std::cin >> PORT;
+
+    // Validate port input
+    if (std::cin.fail() || PORT <= 0 || PORT > 65535) {
+        std::cerr << "Invalid port number. Please enter a number between 1 and 65535." << std::endl;
+        return -1;
+    }
     
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
