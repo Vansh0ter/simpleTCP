@@ -12,14 +12,14 @@ int main() {
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[BUFFER_SIZE] = {0};
-    short PORT;
+    short connectPort;
 
     // Prompt user for the server port number
     std::cout << "Enter the server \e[4mport number\e[0m: ";
-    std::cin >> PORT;
+    std::cin >> connectPort;
 
     // Validate port input
-    if (std::cin.fail() || PORT <= 0 || PORT > 65535) {
+    if (std::cin.fail() || connectPort <= 0 || connectPort > 65535) {
         std::cerr << "Invalid port number. Please enter a number between 1 and 65535." << std::endl;
         return -1;
     }
@@ -38,7 +38,7 @@ int main() {
 
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+    address.sin_port = htons(connectPort);
 
     // Binding the socket to the port
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
@@ -52,7 +52,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Server is listening on port " << PORT << std::endl;
+    std::cout << "Server is listening on port " << connectPort << std::endl;
 
     while (true) {
         // Accepting a new connection
