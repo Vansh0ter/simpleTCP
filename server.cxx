@@ -52,7 +52,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Server is listening on port " << connectPort << std::endl;
+    std::cout << "Server is listening on port " << "\e[4m" << connectPort << "\e[0m" << std::endl;
 
     while (true) {
         // Accepting a new connection
