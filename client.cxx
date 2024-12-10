@@ -14,11 +14,11 @@ int main() {
     std::string server_ip;
 
     // Prompt user for the server IP address
-    std::cout << "Enter the server IP address: ";
+    std::cout << "Enter the server \e[4mIP address\e[0m: ";
     std::cin >> server_ip;
 
     // Prompt user for the server port number
-    std::cout << "Enter the server port number: ";
+    std::cout << "Enter the server \e[4mport number\e[0m: ";
     std::cin >> connectPort;
 
     // Validate port input
@@ -47,6 +47,10 @@ int main() {
         std::cerr << "Connection Failed" << std::endl;
         return -1;
     }
+    else 
+    {
+		std::cout << "Connection established with " << server_ip << std::endl;
+	}
 
     while (true) {
         const char *ping = "ping";
@@ -54,8 +58,12 @@ int main() {
         std::cout << "Sent: ping" << std::endl;
 
         char buffer[BUFFER_SIZE] = {0};
-        read(sock, buffer, BUFFER_SIZE);
-        std::cout << "Received: " << buffer << std::endl;
+        int valread = read(sock, buffer, BUFFER_SIZE);
+        if(valread <= 0) 
+        {
+			std::cerr << "Connection lost" << std::endl;
+		}
+		else std::cout << "Received: " << buffer << std::endl;
 
         sleep(1); // Wait for a second before sending next ping
     }

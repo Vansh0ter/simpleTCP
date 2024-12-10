@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cstring>
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 
-#define PORT 8080
 #define BUFFER_SIZE 1024
 
 int main() {
@@ -13,6 +13,17 @@ int main() {
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[BUFFER_SIZE] = {0};
+    short connectPort;
+
+    // Prompt user for the server port number
+    std::cout << "Enter the server \e[4mport number\e[0m: ";
+    std::cin >> connectPort;
+
+    // Validate port input
+    if (std::cin.fail() || connectPort <= 0 || connectPort > 65535) {
+        std::cerr << "Invalid port number. Please enter a number between 1 and 65535." << std::endl;
+        return -1;
+    }
     
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -28,7 +39,7 @@ int main() {
 
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+    address.sin_port = htons(connectPort);
 
     // Binding the socket to the port
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
@@ -42,7 +53,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Server is listening on port " << PORT << std::endl;
+    std::cout << "Server is listening on port " << "\e[4m" << connectPort << "\e[0m" << std::endl;
 
     while (true) {
         // Accepting a new connection
@@ -52,13 +63,15 @@ int main() {
         }
         else 
         {
-			std::cout << "Connection established" << std::endl;
+			std::cout << "Connection established with " << inet_ntoa(address.sin_addr) << std::endl;
 		}
 	
         while (true) {
             memset(buffer, 0, BUFFER_SIZE);
             int valread = read(new_socket, buffer, BUFFER_SIZE);
-            if (valread <= 0) break; // Exit loop on error or disconnect
+            if (valread <= 0) {
+				std::cout << "Connection lost" << std::endl; 
+				break;
 
             std::cout << "Received: " << buffer << std::endl;
 
@@ -66,6 +79,8 @@ int main() {
             const char *pong = "pong";
             send(new_socket, pong, strlen(pong), 0);
             std::cout << "Sent: " << pong << std::endl;
+            
+            
         }
         
         close(new_socket); // Close connection with the current client
