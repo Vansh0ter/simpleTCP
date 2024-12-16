@@ -74,6 +74,7 @@ int main() {
             if (valread <= 0) {
 				std::cout << "Connection lost" << std::endl; 
 				break;
+            }
 
             std::cout << "Received: " << buffer << std::endl;
 
