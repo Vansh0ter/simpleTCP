@@ -14,11 +14,11 @@ int main() {
     std::string server_ip;
 
     // Prompt user for the server IP address
-    std::cout << "Enter the server \e[4mIP address\e[0m: ";
+    std::cout << "Enter the server \e[4;31mIP address\e[0m: ";
     std::cin >> server_ip;
 
     // Prompt user for the server port number
-    std::cout << "Enter the server \e[4mport number\e[0m: ";
+    std::cout << "Enter the server \e[4;31mport number\e[0m: ";
     std::cin >> connectPort;
 
     // Validate port input
