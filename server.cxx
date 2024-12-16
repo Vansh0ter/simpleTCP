@@ -16,7 +16,7 @@ int main() {
     short connectPort;
 
     // Prompt user for the server port number
-    std::cout << "Enter the server \e[4mport number\e[0m: ";
+    std::cout << "Enter the server \e[4;34mport number\e[0m: ";
     std::cin >> connectPort;
 
     // Validate port input
@@ -53,7 +53,9 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Server is listening on port " << "\e[4m" << connectPort << "\e[0m" << std::endl;
+    std::cout << "Server is listening on port " 
+              << "\e[4;34m" << connectPort << "\e[0m" 
+              << std::endl;
 
     while (true) {
         // Accepting a new connection
